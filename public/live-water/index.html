@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Water - A Serene Puzzle Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, system-ui, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #2a9d8f;
+            --light-blue: #a8dadc;
+            --dark-blue: #1d3557;
+            --accent: #e9c46a;
+            --danger: #e76f51;
+            --white: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+            color: var(--dark-blue);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(29, 53, 87, 0.1);
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--gray);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 4rem 0;
+            gap: 3rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 8px solid white;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-blue);
+            font-weight: 400;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--dark-blue);
+        }
+
+        .highlight {
+            background-color: rgba(42, 157, 143, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-blue);
+            margin: 2rem 0;
+        }
+
+        /* Game Elements Section */
+        .elements-section {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 4rem 0;
+            border-radius: 30px 30px 0 0;
+            margin-top: 2rem;
+        }
+
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .element-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            border-top: 5px solid var(--primary-blue);
+        }
+
+        .element-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .element-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .element-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-blue);
+        }
+
+        .element-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: #238a7d;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(42, 157, 143, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(42, 157, 143, 0.05);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-blue);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            color: var(--light-blue);
+            margin-bottom: 1rem;
+        }
+
+        .copyright {
+            color: var(--light-blue);
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero {
+                flex-direction: column;
+                padding: 2rem 0;
+            }
+            
+            .hero-content {
+                order: 2;
+            }
+            
+            .hero-image {
+                order: 1;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-water"></i>
+            </div>
+            <h1>Live Water</h1>
+            <p class="tagline">A serene puzzle game about balance, flow, and harmony</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Find Your Flow</h2>
+                <p>Dive into a tranquil puzzle experience where every drop matters. Cultivate vibrant schools of fish in a watery grid, but remember—<strong>every connected school must always touch at least two sources of fresh "Live Water"</strong> to keep the ecosystem in balance.</p>
+                
+                <div class="highlight">
+                    <p>Plan carefully. Preserve water. Create harmony. A meditative challenge that starts simple and grows into deep, satisfying strategy.</p>
+                </div>
+                
+                <p>With hundreds of handcrafted levels, calming visuals, and a relaxing soundtrack, Live Water is your escape to a world of peaceful problem-solving.</p>
+            </div>
+            <div class="hero-image">
+                <!-- Placeholder for game screenshot -->
+                <div style="width: 100%; height: 400px; background: linear-gradient(145deg, #a8dadc, #2a9d8f); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <i class="fas fa-fish" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                        <p>Game Preview</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="elements-section">
+            <div class="container">
+                <h2 style="text-align: center;">Master the Elements</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem;">Start with the core puzzle, then expand your strategy with new mechanics</p>
+                
+                <div class="elements-grid">
+                    <div class="element-card">
+                        <div class="element-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3 class="element-title">Live Water</h3>
+                        <p class="element-desc">Preserve empty cells as the lifeline for your schools. Every fish group needs at least two adjacent Live Water cells to thrive.</p>
+                    </div>
+                    
+                    <div class="element-card">
+                        <div class="element-icon">
+                            <i class="fas fa-anchor"></i>
+                        </div>
+                        <h3 class="element-title">Locked Fish</h3>
+                        <p class="element-desc">Build your strategy around fixed starting points (marked with a dashed circle). They cannot be moved.</p>
+                    </div>
+                    
+                    <div class="element-card">
+                        <div class="element-icon">
+                            <i class="fas fa-wall"></i>
+                        </div>
+                        <h3 class="element-title">Walls</h3>
+                        <p class="element-desc">Block water flow and fish placement. Plan your paths carefully around these obstacles.</p>
+                    </div>
+                    
+                    <div class="element-card">
+                        <div class="element-icon">
+                            <i class="fas fa-vortex"></i>
+                        </div>
+                        <h3 class="element-title">Dangerous Water</h3>
+                        <p class="element-desc">Provides precious water flow, but no fish can survive there. Use it wisely to supply your schools.</p>
+                    </div>
+                    
+                    <div class="element-card">
+                        <div class="element-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3 class="element-title">Lotuses</h3>
+                        <p class="element-desc">Connect these numbered plants to fill the board—they thrive without needing live water nearby.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Ready to Restore the Flow?</h2>
+            <p>Download Live Water today and begin your journey to aquatic harmony.</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">
+                    <i class="fab fa-apple"></i>
+                    Download on App Store
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fab fa-google-play"></i>
+                    Get it on Google Play
+                </a>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--gray);">
+                <i class="fas fa-clock"></i> Relaxed gameplay • <i class="fas fa-brain"></i> Strategic puzzles • <i class="fas fa-volume-mute"></i> Peaceful experience
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fas fa-water"></i>
+            </div>
+            <p>Live Water - A serene puzzle game about balance and flow</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple interaction for element cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.element-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.05)';
+                });
+            });
+            
+            // Simple button click feedback
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your interest! The game will be available soon.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
